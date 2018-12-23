@@ -1,6 +1,8 @@
 import logging
 import _thread
 from socketIO_client_nexus import SocketIO
+from nixie_controller import NixieController
+from nixie_display import  NixieDisplay
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 logging.basicConfig()
