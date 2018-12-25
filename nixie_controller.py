@@ -3,10 +3,10 @@ from gpiozero import OutputDevice
 
 class NixieController:
     def __init__(self, initial_value, pin_1, pin_2, pin_3, pin_4):
-        self._value = initial_value
-        self.value = initial_value
         self.pins = [OutputDevice(pin_1), OutputDevice(pin_2), OutputDevice(pin_3), OutputDevice(pin_4)]
         self.pin_states = [False, False, False, False]
+        self._value = initial_value
+        self.value = initial_value
         self.on = False
 
     @property
