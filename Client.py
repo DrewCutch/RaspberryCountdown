@@ -1,11 +1,31 @@
 import logging
+import time
 import _thread
 from socketIO_client_nexus import SocketIO
+from gpiozero import OutputDevice
 from nixie_controller import NixieController
 from nixie_display import  NixieDisplay
 
 logging.getLogger('socketIO-client').setLevel(logging.DEBUG)
 logging.basicConfig()
+
+'''
+First Nixie:
+A : Pin 07 : GPIO4
+B : Pin 11 : GPIO17
+C : Pin 13 : GPIO27
+D : Pin 15 : GPIO22
+
+Second Nixie:
+A : Pin 32 : GPIO12
+B : Pin 36 : GPIO16
+C : Pin 38 : GPIO20
+D : Pin 40 : GPIO21
+'''
+
+nixieController1 = NixieController(0, 7, 11, 13, 15)
+nixieController2 = NixieController(0, 32, 36, 38, 40)
+nixieDisplay = NixieDisplay([nixieController1, nixieController2])
 
 
 def on_connect():
@@ -28,8 +48,12 @@ def on_server_message(*args):
     print('The server says: \"' + args[0] + "\"")
 
 
-def on_lamp_update(*args):
-    print('Lamp update received', args)
+def on_lamp_update(data):
+    print('Lamp update received', data)
+    nixieDisplay.value = data["daysUntilVisit"]
+    nixieDisplay.turn_on()
+    time.sleep(10)
+    nixieDisplay.turn_off()
 
 
 socketIO = SocketIO("http://18.188.195.129:3000", 3000)
