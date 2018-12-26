@@ -23,7 +23,7 @@ C : Pin 38 : GPIO20
 D : Pin 40 : GPIO21
 '''
 
-nixieController1 = NixieController(0, 12, 2, 21, 16)
+nixieController1 = NixieController(0, 12, 20, 21, 16)
 nixieController2 = NixieController(0, 4, 27, 22, 17)
 nixieDisplay = NixieDisplay([nixieController1, nixieController2])
 
