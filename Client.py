@@ -77,5 +77,6 @@ for n in range(100):
 nixieDisplay.turn_off()
 
 while True:
+    button.wait_for_release()
     button.wait_for_press()
     socketIO.emit('lamp-update', {'touch': True})
