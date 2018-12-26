@@ -18,6 +18,7 @@ class NixieController:
         for n in range(4):
             self.pin_states[n] = new_value & (2 ** n) != 0
         self._value = new_value
+        self.refresh_pins()
 
     def refresh_pins(self):
         for n in range(4):
