@@ -2,7 +2,7 @@ import logging
 import time
 import _thread
 from socketIO_client_nexus import SocketIO
-from gpiozero import OutputDevice
+from gpiozero import Button
 from nixie_controller import NixieController
 from nixie_display import  NixieDisplay
 
@@ -26,6 +26,7 @@ D : Pin 40 : GPIO21
 nixieController1 = NixieController(0, 12, 20, 21, 16)
 nixieController2 = NixieController(0, 4, 22, 27, 17)
 nixieDisplay = NixieDisplay([nixieController1, nixieController2])
+button = Button(23, False, .1)
 
 
 def on_connect():
@@ -71,11 +72,10 @@ nixieDisplay.turn_on()
 
 for n in range(100):
     nixieDisplay.value = n
-    time.sleep(1)
+    time.sleep(.1)
 
 nixieDisplay.turn_off()
 
 while True:
-    user_in = input("Type \"touch\" to touch the lamp")
-    if user_in == "touch":
-        socketIO.emit('lamp-update', {'touch': True})
+    button.wait_for_press()
+    socketIO.emit('lamp-update', {'touch': True})
