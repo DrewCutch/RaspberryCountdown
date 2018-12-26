@@ -23,7 +23,7 @@ C : Pin 38 : GPIO20
 D : Pin 40 : GPIO21
 '''
 
-nixieController1 = NixieController(0, 12, 16, 20, 21)
+nixieController1 = NixieController(0, 12, 21, 20, 16)
 nixieController2 = NixieController(0, 4, 22, 27, 17)
 nixieDisplay = NixieDisplay([nixieController1, nixieController2])
 
@@ -65,6 +65,15 @@ socketIO.on('server-message', on_server_message)
 socketIO.on('lamp-update', on_lamp_update)
 
 _thread.start_new_thread(socketIO.wait, ())
+
+
+nixieDisplay.turn_on()
+
+for n in range(100):
+    nixieDisplay.value = n
+    time.sleep(1)
+
+nixieDisplay.turn_off()
 
 while True:
     user_in = input("Type \"touch\" to touch the lamp")
